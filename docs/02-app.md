@@ -242,6 +242,8 @@ pip install -e app/
 
 # spin up database
 docker compose up -d
+# SQL-init schema
+docker exec voting-postgres pg_dump -U voting -d voting --schema-only > sql-init.schema.sql
 
 # start the server
 uvicorn voting.main:app --port 8000
@@ -259,4 +261,22 @@ curl http://localhost:8000/readyz
 docker compose stop postgres
 curl http://localhost:8000/readyz
 # {"detail":"db unreachable"}
+```
+
+---
+
+### DB Migration
+
+```sh
+# dump the SQL-init schema from inside the container
+docker exec voting-postgres pg_dump -U voting -d voting --schema-only > sql-init.schema.sql
+
+docker exec voting-postgres psql -U voting -d postgres -c "DROP DATABASE voting;"
+# DROP DATABASE
+docker exec voting-postgres psql -U voting -d postgres -c "CREATE DATABASE voting;"
+# CREATE DATABASE
+
+cd app
+alembic upgrade head
+
 ```
