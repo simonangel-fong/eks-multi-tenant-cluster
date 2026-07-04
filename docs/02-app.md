@@ -248,7 +248,7 @@ docker exec voting-postgres pg_dump -U voting -d voting --schema-only > sql-init
 # start the server
 uvicorn voting.main:app --port 8000
 
-# test conn 
+# test conn
 python -c "from voting.db import engine; from sqlalchemy import text; print(engine.connect().execute(text('SELECT 1')).scalar())"
 # 1
 
@@ -278,5 +278,73 @@ docker exec voting-postgres psql -U voting -d postgres -c "CREATE DATABASE votin
 
 cd app
 alembic upgrade head
+```
+
+---
+
+### CRUD
+
+```sh
+# start server
+uvicorn voting.main:app --port 8000
+
+curl http://localhost:8000/healthz
+# {"status":"ok"}
+curl http://localhost:8000/readyz
+# {"status":"ready"}
+
+# create a poll
+curl -s -X POST http://localhost:8000/polls -H "content-type: application/json" --data-raw "{\"title\":\"cloud?\",\"options\":[\"AWS\",\"GCP\",\"Azure\"]}"
+# {"id": 1,"title": "cloud?","created_at": "2026-07-04T20:03:27.800788Z","closes_at": null,"options": [{"id": 1,"label": "AWS"},{"id": 2,"label": "GCP"},{"id": 3,"label": "Azure"}]}
+
+# list polls
+curl -s http://localhost:8000/polls
+# [{"id": 1,"title": "cloud?","created_at": "2026-07-04T20:03:27.800788Z","closes_at": null}]
+
+# poll details
+curl -s http://localhost:8000/polls/1
+# {"id":1,"title":"cloud?","created_at":"2026-07-04T20:03:27.800788Z","closes_at":null,"options":[{"id":1,"label":"AWS"},{"id":2,"label":"GCP"},{"id":3,"label":"Azure"}]}
+
+# invalid poll
+curl http://localhost:8000/polls/99999
+# {"detail": "poll not found"}
+
+# validation: empty title 422
+curl -i -X POST http://localhost:8000/polls   -H "content-type: application/json" -d "{\"title\":\"\",\"options\":[\"AWS\",\"GCP\"]}"
+# HTTP/1.1 422 Unprocessable Content
+# date: Sat, 04 Jul 2026 20:16:01 GMT
+# server: uvicorn
+# content-length: 145
+# content-type: application/json
+
+# validation: option 422
+curl -i -X POST http://localhost:8000/polls -H "content-type: application/json" -d "{\"title\":\"cloud?\",\"options\":[\"AWS\"]}"
+# HTTP/1.1 422 Unprocessable Content
+# date: Sat, 04 Jul 2026 20:17:53 GMT
+# server: uvicorn
+# content-length: 201
+# content-type: application/json
+
+# {"detail":[{"type":"too_short","loc":["body","options"],"msg":"List should have at least 2 items after validation, not 1","input":["AWS"],"ctx":{"field_type":"List","min_length":2,"actual_length":1}}]}
+
+# validation: closes_at in past 422
+curl -i -X POST http://localhost:8000/polls -H "content-type: application/json" -d "{\"title\":\"expired\",\"options\":[\"a\",\"b\"],\"closes_at\":\"2020-01-01T00:00:00Z\"}"
+# HTTP/1.1 422 Unprocessable Content
+# date: Sat, 04 Jul 2026 20:18:52 GMT
+# server: uvicorn
+# content-length: 205
+# content-type: application/json
+
+# {"detail":[{"type":"value_error","loc":["body"],"msg":"Value error, closes_at must be in the future","input":{"title":"expired","options":["a","b"],"closes_at":"2020-01-01T00:00:00Z"},"ctx":{"error":{}}}]}
+
+# validation: duplicate option labels 422
+curl -i -X POST http://localhost:8000/polls -H "content-type: application/json" -d "{\"title\":\"dup\",\"options\":[\"AWS\",\"AWS\"]}"
+# HTTP/1.1 422 Unprocessable Content
+# date: Sat, 04 Jul 2026 20:19:38 GMT
+# server: uvicorn
+# content-length: 151
+# content-type: application/json
+
+# {"detail":[{"type":"value_error","loc":["body","options"],"msg":"Value error, option labels must be unique","input":["AWS","AWS"],"ctx":{"error":{}}}]}
 
 ```
