@@ -11,6 +11,7 @@
     - [Vote](#vote)
   - [PyTest](#pytest)
   - [Containerize](#containerize)
+  - [Push to DockerHub](#push-to-dockerhub)
 
 ---
 
@@ -45,6 +46,7 @@ app/
 | 07  | vote + tally  | `POST /polls/{id}/vote`, `GET /polls/{id}/results`      |
 | 08  | pytest        | real-Postgres test suite covering the endpoint table    |
 | 09  | containerize  | multi-stage Dockerfile + `api` service in compose       |
+| 10  | push to ECR   | create ECR Public repo; tag and push `voting-api` image |
 
 ---
 
@@ -200,4 +202,22 @@ curl http://127.0.0.1:8000/readyz
 docker inspect --format "{{.State.Health.Status}}" voting-api
 # healthy
 
+```
+
+---
+
+## Push to DockerHub
+
+
+```sh
+docker login
+
+docker build -t local-image app/
+
+docker tag local-image:latest simonangelfong/voting-api:0.1.0
+docker tag local-image:latest simonangelfong/voting-api:latest
+
+# push both tags
+docker push simonangelfong/voting-api:0.1.0
+docker push simonangelfong/voting-api:latest
 ```

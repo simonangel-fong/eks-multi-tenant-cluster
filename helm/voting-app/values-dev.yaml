@@ -1,0 +1,17 @@
+# Phase 4.1 placeholder — nginx web until the real API lands in 4.5.
+image:
+  repository: nginx
+  tag: alpine
+
+service:
+  port: 80
+
+gateway:
+  enabled: true
+  createGateway: true
+  className: nginx
+  host: voting.local
+
+postgres:
+  persistence:
+    size: 2Gi
