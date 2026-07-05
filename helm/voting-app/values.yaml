@@ -1,6 +1,6 @@
 image:
-  repository: voting-api
-  tag: local
+  repository: simonangelfong/voting-api
+  tag: latest
   pullPolicy: IfNotPresent
 
 replicaCount: 1
@@ -63,6 +63,8 @@ flyway:
     repository: flyway/flyway
     tag: "10-alpine"
   connectRetries: 30
+  baselineOnMigrate: true
+  baselineVersion: "1"
 
 api:
   env: []

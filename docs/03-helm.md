@@ -315,4 +315,66 @@ kubectl get pvc data-voting-voting-app-postgres-0
 # NAME                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
 # data-voting-voting-app-postgres-0   Bound    pvc-d30ffbaa-2877-4322-b100-72a953602cb6   2Gi        RWO            standard       <unset>                 40s
 
+helm upgrade -i voting ./helm/voting-app -f ./helm/voting-app/values-dev.yaml
+kubectl get cm voting-flyway-sql -o jsonpath='{.data.V1__initial_schema\.sql}' | head
+# CREATE TABLE polls (
+#     id          BIGSERIAL PRIMARY KEY,
+#     title       TEXT        NOT NULL,
+#     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+#     closes_at   TIMESTAMPTZ
+# );
+
+# CREATE TABLE options (
+#     id       BIGSERIAL PRIMARY KEY,
+#     poll_id  BIGINT NOT NULL REFERENCES polls(id) ON DELETE CASCADE,
+
+
+# confirm pgdb persistent
+kubectl exec -i voting-voting-app-postgres-0 -- psql -U voting -d voting <<'SQL'
+CREATE TABLE IF NOT EXISTS persistence_probe (id serial PRIMARY KEY, note text, at timestamptz default now());
+INSERT INTO persistence_probe (note) VALUES ('before pod delete');
+SELECT * FROM persistence_probe;
+SQL
+#  id |       note        |              at
+# ----+-------------------+-------------------------------
+#   1 | before pod delete | 2026-07-05 02:29:50.154622+00
+# (1 row)
+
+#  Delete the pod, wait for the StatefulSet to recreate it
+kubectl delete pod voting-voting-app-postgres-0
+# pod "voting-voting-app-postgres-0" deleted from default namespace
+kubectl wait --for=condition=Ready pod/voting-voting-app-postgres-0 --timeout=90s
+# pod/voting-voting-app-postgres-0 condition met
+
+# Read it back
+kubectl exec -i voting-voting-app-postgres-0 -- psql -U voting -d voting -c "SELECT * FROM persistence_probe;"
+#  id |       note        |              at
+# ----+-------------------+-------------------------------
+#   1 | before pod delete | 2026-07-05 02:29:50.154622+00
+# (1 row)
+
+
+
+helm upgrade -i voting ./helm/voting-app -f ./helm/voting-app/values-dev.yaml
+kubectl rollout status deploy/voting-voting-app-api --timeout=120s
+# deployment "voting-voting-app-api" successfully rolled out
+kubectl port-forward svc/voting-voting-app-api 8000:8000
+curl -s http://127.0.0.1:8000/readyz
+# {"status":"ready"}
+
+
+kubectl port-forward svc/voting-voting-app-api 8000:8000 & curl -s http://127.0.0.1:8000/readyz
+
+# clean up
+helm uninstall voting
+kubectl delete pvc data-voting-voting-app-postgres-0
+```
+
+
+runbook
+
+```sh
+# debug flyway
+kubectl logs voting-voting-app-api-765b494888-tsr9x -c flyway
+
 ```
