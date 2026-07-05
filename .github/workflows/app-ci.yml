@@ -1,0 +1,85 @@
+name: app-ci
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "app/**"
+      - "sql/initdb/**"
+      - ".github/workflows/app-ci.yml"
+  pull_request:
+    branches: [master]
+    paths:
+      - "app/**"
+      - "sql/initdb/**"
+      - ".github/workflows/app-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # service containers
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: voting
+          POSTGRES_PASSWORD: voting
+          POSTGRES_DB: voting
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U voting -d voting"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: voting
+      PGPASSWORD: voting
+      DATABASE_URL: postgresql+psycopg://voting:voting@127.0.0.1:5432/voting
+      TEST_DATABASE_URL: postgresql+psycopg://voting:voting@127.0.0.1:5432/voting_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Create voting_test database
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends postgresql-client
+          psql -h 127.0.0.1 -U voting -d voting -c "CREATE DATABASE voting_test OWNER voting;"
+
+      - name: Flyway migrate — voting
+        run: |
+          docker run --rm --network host \
+            -v ${{ github.workspace }}/app/flyway/sql:/flyway/sql:ro \
+            flyway/flyway:10-alpine \
+            -url=jdbc:postgresql://127.0.0.1:5432/voting \
+            -user=voting -password=voting -connectRetries=10 migrate
+
+      - name: Flyway migrate — voting_test
+        run: |
+          docker run --rm --network host \
+            -v ${{ github.workspace }}/app/flyway/sql:/flyway/sql:ro \
+            flyway/flyway:10-alpine \
+            -url=jdbc:postgresql://127.0.0.1:5432/voting_test \
+            -user=voting -password=voting -connectRetries=10 migrate
+
+      - name: Install project deps
+        working-directory: app
+        run: uv sync --frozen
+
+      - name: Run pytest
+        working-directory: app
+        run: uv run pytest -v

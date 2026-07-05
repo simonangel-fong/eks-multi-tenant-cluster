@@ -54,6 +54,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.egg-info/
+dist/
+build/
 .venv/
 venv/
 .env
@@ -88,3 +90,4 @@ kubeconfig
 # helm
 # ####################
 helm/dist/
+*.tgz
