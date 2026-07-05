@@ -1,13 +1,3 @@
-output "region" {
-  description = "AWS region."
-  value       = var.region
-}
-
-output "name_prefix" {
-  description = "Resource name prefix."
-  value       = local.name_prefix
-}
-
 output "vpc_id" {
   description = "VPC ID."
   value       = module.vpc.vpc_id
@@ -21,4 +11,24 @@ output "private_subnet_ids" {
 output "public_subnet_ids" {
   description = "Public subnet IDs (NAT gateway only)."
   value       = module.vpc.public_subnets
+}
+
+output "cluster_name" {
+  description = "EKS cluster name."
+  value       = module.eks.cluster_name
+}
+
+output "cluster_endpoint" {
+  description = "EKS API endpoint."
+  value       = module.eks.cluster_endpoint
+}
+
+output "cluster_oidc_issuer_url" {
+  description = "EKS OIDC issuer URL."
+  value       = module.eks.cluster_oidc_issuer_url
+}
+
+output "kubeconfig_command" {
+  description = "Command to update local kubeconfig."
+  value       = "aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}"
 }
