@@ -83,3 +83,37 @@ jobs:
       - name: Run pytest
         working-directory: app
         run: uv run pytest -v
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Compute image tags
+        id: tags
+        run: |
+          echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=$(echo ${{ github.sha }} | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./app
+          file: ./app/Dockerfile
+          push: false
+          load: true
+          tags: |
+            voting-api:${{ steps.tags.outputs.sha }}
+            voting-api:${{ steps.tags.outputs.short_sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke-check image
+        run: |
+          docker image inspect voting-api:${{ steps.tags.outputs.short_sha }} \
+            --format 'built {{.Created}} — size {{.Size}}B'
