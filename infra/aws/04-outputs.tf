@@ -32,3 +32,13 @@ output "kubeconfig_command" {
   description = "Command to update local kubeconfig."
   value       = "aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}"
 }
+
+# output "alb_dns_name" {
+#   description = "Private ALB DNS name (in-VPC access only)."
+#   value       = aws_lb.private.dns_name
+# }
+
+# output "api_gateway_invoke_url" {
+#   description = "API Gateway HTTP API invoke URL."
+#   value       = aws_apigatewayv2_api.this.api_endpoint
+# }

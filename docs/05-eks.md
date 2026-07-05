@@ -73,12 +73,12 @@ backend (s3 + native locking) lives in a separate `backend.tf` at repo root or i
 
 ## provisioning phases
 
-| phase | description                                                          |
-| ----- | -------------------------------------------------------------------- |
-| 1     | bootstrap: variables, locals, providers, outputs (`01`–`04`)         |
-| 2     | foundation: VPC, subnets, NAT, routes (`05-aws-vpc.tf`)              |
+| phase | description                                                               |
+| ----- | ------------------------------------------------------------------------- |
+| 1     | bootstrap: variables, locals, providers, outputs (`01`–`04`)              |
+| 2     | foundation: VPC, subnets, NAT, routes (`05-aws-vpc.tf`)                   |
 | 3     | cluster: EKS control plane, node group, managed add-ons (`06-aws-eks.tf`) |
-| 4     | edge: API Gateway (`07`) + VPC Link to private ALB (`08`)            |
+| 4     | edge: API Gateway (`07`) + VPC Link to private ALB (`08`)                 |
 
 ---
 
@@ -99,4 +99,19 @@ terraform -chdir=infra/aws fmt && terraform -chdir=infra/aws validate
 terraform -chdir=infra/aws plan
 
 terraform -chdir=infra/aws apply -auto-approve
+```
+
+- Connect cluster
+
+```sh
+aws eks update-kubeconfig --region ca-central-1 --name voting-dev
+# Added new context arn:aws:eks:ca-central-1:099139718958:cluster/voting-dev to /home/ubuntuadmin/.kube/config
+
+k get node
+# NAME                                           STATUS   ROLES    AGE     VERSION
+# ip-10-0-12-95.ca-central-1.compute.internal    Ready    <none>   2m48s   v1.36.2-eks-7d6f6ec
+# ip-10-0-15-157.ca-central-1.compute.internal   Ready    <none>   2m48s   v1.36.2-eks-7d6f6ec
+# ip-10-0-16-76.ca-central-1.compute.internal    Ready    <none>   2m47s   v1.36.2-eks-7d6f6ec
+
+
 ```
