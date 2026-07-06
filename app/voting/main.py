@@ -2,6 +2,7 @@ import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from voting.db import ping
 from voting.routers import polls
@@ -18,6 +19,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title="Voting API", lifespan=lifespan)
 app.include_router(polls.router)
+Instrumentator().instrument(app).expose(app, endpoint="/metrics", include_in_schema=False)
 
 
 @app.get("/")
