@@ -43,4 +43,15 @@ curl http://localhost:8000/healthz
 
 # 4. check /metrics exposes prometheus text format
 curl http://localhost:8000/metrics | grep "http_requests_total|http_request_duration_seconds_bucket"
+
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --version 87.10.1 --create-namespace
+
+
+ helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --version 87.10.1 --create-namespace -f argocd\apps\values-kps.yaml
+
+kubectl get secret --namespace monitoring -l app.kubernetes.io/component=admin-secret -o jsonpath="{.items[0].data.admin-password}" | base64 --decode ; echo
+
+kubectl -n monitoring port-forward svc/prometheus-grafana 3000:80
 ```
