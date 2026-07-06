@@ -51,10 +51,6 @@ spec:
                     path: /var/lib/grafana/dashboards/community
           dashboards:
             community:
-              fastapi:
-                gnetId: 15141           # FastAPI Observability
-                revision: 1
-                datasource: Prometheus
               node-exporter:
                 gnetId: 1860            # Node Exporter Full
                 revision: 37
