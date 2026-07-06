@@ -94,7 +94,7 @@ backend (s3 + native locking) lives in a separate `backend.tf` at repo root or i
 ## Development
 
 ```sh
-terraform -chdir=infra/aws init -backend-config=backend.hcl
+terraform -chdir=infra/aws init -backend-config=backend.hcl -upgrade
 terraform -chdir=infra/aws fmt && terraform -chdir=infra/aws validate
 terraform -chdir=infra/aws plan
 

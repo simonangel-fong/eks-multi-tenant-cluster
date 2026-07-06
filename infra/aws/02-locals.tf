@@ -41,7 +41,12 @@ locals {
     }
   })
 
-
+  # ##############################
+  # Karpenter
+  # ##############################
+  karpenter_namespace       = "kube-system"
+  karpenter_service_account = "karpenter"
+  karpenter_chart_ver       = "1.6.0"
 }
 
 

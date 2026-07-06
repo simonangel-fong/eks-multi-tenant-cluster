@@ -8,6 +8,29 @@ output "placeholder_tg_arn" {
   value       = aws_lb_target_group.placeholder.arn
 }
 
+# ##############################
+# Karpenter (7.6) — paste these into argocd/apps/karpenter.yaml values
+# ##############################
+output "karpenter_cluster_name" {
+  description = "EKS cluster name — karpenter chart settings.clusterName."
+  value       = module.eks.cluster_name
+}
+
+output "karpenter_cluster_endpoint" {
+  description = "EKS API endpoint — karpenter chart settings.clusterEndpoint."
+  value       = module.eks.cluster_endpoint
+}
+
+output "karpenter_queue_name" {
+  description = "SQS interruption queue name — karpenter chart settings.interruptionQueue."
+  value       = module.karpenter.queue_name
+}
+
+output "karpenter_node_iam_role_name" {
+  description = "Node IAM role name — referenced by EC2NodeClass in phase 7.7."
+  value       = module.karpenter.node_iam_role_name
+}
+
 # output "private_subnet_ids" {
 #   description = "Private subnet IDs (workloads + private ALB)."
 #   value       = module.vpc.private_subnets

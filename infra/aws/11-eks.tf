@@ -54,7 +54,15 @@ module "eks" {
       desired_size = local.eks_node_desired_size
 
       subnet_ids = module.vpc.private_subnets
+
+      labels = {
+        "karpenter.sh/controller" = "true"
+      }
     }
+  }
+
+  node_security_group_tags = {
+    "karpenter.sh/discovery" = local.eks_name
   }
 }
 
