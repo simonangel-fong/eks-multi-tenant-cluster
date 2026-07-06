@@ -21,5 +21,27 @@ grafana:
     storageClassName: gp3
     size: 5Gi
   defaultDashboardsEnabled: true
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: community
+          orgId: 1
+          folder: Community
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/community
+  dashboards:
+    community:
+      fastapi:
+        gnetId: 15141
+        revision: 1
+        datasource: Prometheus
+      node-exporter:
+        gnetId: 1860
+        revision: 37
+        datasource: Prometheus
 alertmanager:
   enabled: false
