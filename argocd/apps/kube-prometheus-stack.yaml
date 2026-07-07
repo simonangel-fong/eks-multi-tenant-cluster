@@ -1,71 +1,71 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: kube-prometheus-stack
-  namespace: argocd
-  finalizers:
-    - argocd.argoproj.io/resources-finalizer
-spec:
-  project: platform
-  source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
-    targetRevision: 87.10.1
-    helm:
-      releaseName: prometheus            # match the helm install to adopt existing resources
-      values: |
-        crds:
-          enabled: false                 # keep helm's initial CRDs; upgrade separately
-        prometheus:
-          prometheusSpec:
-            retention: 7d
-            serviceMonitorSelectorNilUsesHelmValues: false
-            podMonitorSelectorNilUsesHelmValues: false
-            probeSelectorNilUsesHelmValues: false
-            ruleSelectorNilUsesHelmValues: false
-            scrapeConfigSelectorNilUsesHelmValues: false
-            storageSpec:
-              volumeClaimTemplate:
-                spec:
-                  storageClassName: gp3
-                  accessModes: ["ReadWriteOnce"]
-                  resources:
-                    requests:
-                      storage: 20Gi
-        grafana:
-          adminPassword: admin           # dev only — swap to ESO later
-          persistence:
-            enabled: true
-            storageClassName: gp3
-            size: 5Gi
-          defaultDashboardsEnabled: true
-          dashboardProviders:
-            dashboardproviders.yaml:
-              apiVersion: 1
-              providers:
-                - name: community
-                  orgId: 1
-                  folder: Community
-                  type: file
-                  disableDeletion: false
-                  editable: true
-                  options:
-                    path: /var/lib/grafana/dashboards/community
-          dashboards:
-            community:
-              node-exporter:
-                gnetId: 1860            # Node Exporter Full
-                revision: 37
-                datasource: Prometheus
-        alertmanager:
-          enabled: false
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - ServerSideApply=true
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kube-prometheus-stack
+#   namespace: argocd
+#   finalizers:
+#     - argocd.argoproj.io/resources-finalizer
+# spec:
+#   project: platform
+#   source:
+#     repoURL: https://prometheus-community.github.io/helm-charts
+#     chart: kube-prometheus-stack
+#     targetRevision: 87.10.1
+#     helm:
+#       releaseName: prometheus            # match the helm install to adopt existing resources
+#       values: |
+#         crds:
+#           enabled: false                 # keep helm's initial CRDs; upgrade separately
+#         prometheus:
+#           prometheusSpec:
+#             retention: 7d
+#             serviceMonitorSelectorNilUsesHelmValues: false
+#             podMonitorSelectorNilUsesHelmValues: false
+#             probeSelectorNilUsesHelmValues: false
+#             ruleSelectorNilUsesHelmValues: false
+#             scrapeConfigSelectorNilUsesHelmValues: false
+#             storageSpec:
+#               volumeClaimTemplate:
+#                 spec:
+#                   storageClassName: gp3
+#                   accessModes: ["ReadWriteOnce"]
+#                   resources:
+#                     requests:
+#                       storage: 20Gi
+#         grafana:
+#           adminPassword: admin           # dev only — swap to ESO later
+#           persistence:
+#             enabled: true
+#             storageClassName: gp3
+#             size: 5Gi
+#           defaultDashboardsEnabled: true
+#           dashboardProviders:
+#             dashboardproviders.yaml:
+#               apiVersion: 1
+#               providers:
+#                 - name: community
+#                   orgId: 1
+#                   folder: Community
+#                   type: file
+#                   disableDeletion: false
+#                   editable: true
+#                   options:
+#                     path: /var/lib/grafana/dashboards/community
+#           dashboards:
+#             community:
+#               node-exporter:
+#                 gnetId: 1860            # Node Exporter Full
+#                 revision: 37
+#                 datasource: Prometheus
+#         alertmanager:
+#           enabled: false
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: monitoring
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
+#       - ServerSideApply=true

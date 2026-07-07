@@ -4,7 +4,7 @@ metadata:
   name: 02-eso-resources
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-10"
   finalizers:
     - argocd.argoproj.io/resources-finalizer
 spec:
