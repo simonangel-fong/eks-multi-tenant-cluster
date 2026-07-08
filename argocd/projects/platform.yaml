@@ -16,6 +16,7 @@ spec:
     - https://github.com/kubernetes-sigs/gateway-api
     - https://prometheus-community.github.io/helm-charts
     - https://charts.jetstack.io
+    - https://kubernetes-sigs.github.io/external-dns
   destinations:
     - server: https://kubernetes.default.svc
       namespace: '*'
