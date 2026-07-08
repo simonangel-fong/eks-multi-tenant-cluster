@@ -31,7 +31,7 @@ argocd/
 Required before any admin action. Points kubeconfig at the cluster, exposes the ArgoCD UI locally, and authenticates the `argocd` CLI.
 
 ```sh
-aws eks update-kubeconfig --region ca-central-1 --name voting-dev
+aws eks update-kubeconfig --region ca-central-1 --name eks-platform-dev
 
 # open the UI locally
 kubectl -n argocd port-forward svc/argocd-server 8080:443
@@ -52,10 +52,12 @@ argocd app list
 
 ## Bootstrap
 
-One-time setup for a fresh cluster. Applying `root.yaml` triggers the app-of-apps chain: `root` → `bootstrap/` → `projects/` + `platform/` + `workloads/`. From that point on, Argo self-manages via git.
+- One-time setup for a fresh cluster. 
+- Applying `root.yaml` triggers the app-of-apps chain: `root` → `bootstrap/` → `projects/` + `platform/` + `workloads/`. 
+  - From that point on, Argo self-manages via git.
 
 ```sh
-aws eks update-kubeconfig --region ca-central-1 --name voting-dev
+aws eks update-kubeconfig --region ca-central-1 --name eks-platform-dev
 
 # hand control to the root app-of-apps
 kubectl apply -f argocd/root.yaml
