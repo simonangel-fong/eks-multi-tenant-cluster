@@ -25,7 +25,8 @@ data "aws_iam_policy_document" "eso_read" {
       "secretsmanager:DescribeSecret",
     ]
     resources = [
-      aws_secretsmanager_secret.eso_cloudflare.arn
+      aws_secretsmanager_secret.eso_cloudflare.arn,
+      aws_secretsmanager_secret.eso_grafana_admin.arn,
     ]
   }
 }
@@ -58,5 +59,22 @@ resource "aws_secretsmanager_secret" "eso_cloudflare" {
 resource "aws_secretsmanager_secret_version" "cloudflare" {
   secret_id     = aws_secretsmanager_secret.eso_cloudflare.id
   secret_string = jsonencode({ apiToken = var.cloudflare_api_token })
+}
+
+resource "aws_secretsmanager_secret" "eso_grafana_admin" {
+  name = "${local.common_name}/grafana-admin"
+}
+
+resource "random_password" "grafana_admin" {
+  length  = 24
+  special = false
+}
+
+resource "aws_secretsmanager_secret_version" "grafana_admin" {
+  secret_id = aws_secretsmanager_secret.eso_grafana_admin.id
+  secret_string = jsonencode({
+    admin-user     = "admin"
+    admin-password = random_password.grafana_admin.result
+  })
 }
 

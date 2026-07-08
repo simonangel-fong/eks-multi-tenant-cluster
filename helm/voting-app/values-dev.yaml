@@ -19,3 +19,6 @@ gateway:
 postgres:
   persistence:
     size: 2Gi
+
+metrics:
+  enabled: false
