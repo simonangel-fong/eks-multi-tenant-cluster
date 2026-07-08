@@ -10,19 +10,9 @@ metadata:
 spec:
   project: platform
   source:
-    repoURL: https://istio-release.storage.googleapis.com/charts
-    chart: gateway
-    targetRevision: 1.30.2
-    helm:
-      releaseName: istio-ingress
-      values: |
-        service:
-          loadBalancerClass: service.k8s.aws/nlb
-          annotations:
-            service.beta.kubernetes.io/aws-load-balancer-type: external
-            service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-            service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-            service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    repoURL: https://github.com/simonangel-fong/project-eks-argocd
+    targetRevision: master
+    path: argocd/platform/istio-gateway
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-ingress
