@@ -34,6 +34,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "Every container must declare `resources.requests.cpu` and `resources.requests.memory`."
         pattern:

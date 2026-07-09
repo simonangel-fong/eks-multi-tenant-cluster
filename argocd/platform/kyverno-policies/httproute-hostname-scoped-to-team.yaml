@@ -35,6 +35,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       context:
         - name: teamLabel
           variable:

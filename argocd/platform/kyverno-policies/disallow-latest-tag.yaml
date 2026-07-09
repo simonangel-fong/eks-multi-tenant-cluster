@@ -34,6 +34,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "Image tag is required (no `:latest`, no untagged)."
         pattern:
@@ -62,6 +63,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "Image tag `:latest` is not allowed — use an immutable tag."
         pattern:

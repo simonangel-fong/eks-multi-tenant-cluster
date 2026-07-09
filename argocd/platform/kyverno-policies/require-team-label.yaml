@@ -40,6 +40,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "Workload must have a `team` label — drives platform routing."
         pattern:

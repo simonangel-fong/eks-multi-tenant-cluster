@@ -34,6 +34,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "Every alerting rule must have a `runbook_url` annotation."
         foreach:

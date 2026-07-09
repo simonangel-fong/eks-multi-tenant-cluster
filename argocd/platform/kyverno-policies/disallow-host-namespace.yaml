@@ -34,6 +34,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "hostNetwork, hostPID, and hostIPC are not allowed."
         pattern:

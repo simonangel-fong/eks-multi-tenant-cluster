@@ -34,6 +34,7 @@ spec:
                 - external-secrets
                 - monitoring
                 - kyverno
+                - argo-rollouts
       validate:
         message: "Privileged containers are not allowed."
         pattern:
