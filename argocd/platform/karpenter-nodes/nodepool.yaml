@@ -4,6 +4,9 @@ metadata:
   name: general
 spec:
   template:
+    metadata:
+      labels:
+        workload-class: general
     spec:
       nodeClassRef:
         group: karpenter.k8s.aws

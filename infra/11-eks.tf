@@ -105,3 +105,24 @@ resource "kubernetes_storage_class_v1" "gp3" {
 
   depends_on = [module.eks]
 }
+
+# High-IOPS class for databases and write-heavy stateful workloads.
+# Retain reclaim protects data on accidental PVC delete; orphaned volumes
+# must be cleaned up manually.
+resource "kubernetes_storage_class_v1" "gp3_iops" {
+  metadata {
+    name = "gp3-iops"
+  }
+  storage_provisioner    = "ebs.csi.aws.com"
+  reclaim_policy         = "Retain"
+  volume_binding_mode    = "WaitForFirstConsumer"
+  allow_volume_expansion = true
+
+  parameters = {
+    type       = "gp3"
+    iops       = "10000"
+    throughput = "500"
+  }
+
+  depends_on = [module.eks]
+}
