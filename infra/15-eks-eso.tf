@@ -87,4 +87,3 @@ resource "aws_secretsmanager_secret_version" "slack_webhook" {
   secret_id     = aws_secretsmanager_secret.eso_slack_webhook.id
   secret_string = jsonencode({ url = var.slack_webhook_url })
 }
-
