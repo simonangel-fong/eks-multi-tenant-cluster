@@ -93,6 +93,12 @@ spec:
                       storage: 2Gi
             secrets:
               - slack-webhook
+            # Discover per-team AlertmanagerConfig CRs by label so
+            # teams onboard without central-config edits.
+            alertmanagerConfigSelector:
+              matchLabels:
+                alertmanagerConfig: platform
+            alertmanagerConfigNamespaceSelector: {}
           config:
             global:
               resolve_timeout: 5m
