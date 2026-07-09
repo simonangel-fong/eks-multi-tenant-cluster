@@ -36,3 +36,9 @@ variable "cloudflare_api_token" {
   type        = string
   sensitive   = true
 }
+
+variable "slack_webhook_url" {
+  description = "Slack incoming webhook URL for platform notifications. Create the Slack app first, then set via TF_VAR_slack_webhook_url or tfvars."
+  type        = string
+  sensitive   = true
+}

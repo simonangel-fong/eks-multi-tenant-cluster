@@ -27,6 +27,7 @@ data "aws_iam_policy_document" "eso_read" {
     resources = [
       aws_secretsmanager_secret.eso_cloudflare.arn,
       aws_secretsmanager_secret.eso_grafana_admin.arn,
+      aws_secretsmanager_secret.eso_slack_webhook.arn,
     ]
   }
 }
@@ -76,5 +77,14 @@ resource "aws_secretsmanager_secret_version" "grafana_admin" {
     admin-user     = "admin"
     admin-password = random_password.grafana_admin.result
   })
+}
+
+resource "aws_secretsmanager_secret" "eso_slack_webhook" {
+  name = "${local.common_name}/slack-webhook"
+}
+
+resource "aws_secretsmanager_secret_version" "slack_webhook" {
+  secret_id     = aws_secretsmanager_secret.eso_slack_webhook.id
+  secret_string = jsonencode({ url = var.slack_webhook_url })
 }
 
