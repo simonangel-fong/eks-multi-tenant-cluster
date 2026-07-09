@@ -9,6 +9,13 @@ metadata:
       Every long-running container must declare liveness and readiness probes.
       Enables safe rollouts (kubelet won't send traffic before ready) and
       self-healing (unhealthy pods are restarted).
+    # Init containers run once and exit — probes don't apply. Kyverno's
+    # default autogen would generate rules that also check initContainers,
+    # blocking legitimate init containers like Flyway. Disable autogen
+    # for this policy; the Pod-level rule (which walks spec.containers only)
+    # is sufficient because Kubernetes will call our webhook when Pods
+    # are created by any controller.
+    pod-policies.kyverno.io/autogen-controllers: none
 spec:
   validationFailureAction: Enforce
   background: true
