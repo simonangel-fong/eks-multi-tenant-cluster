@@ -35,7 +35,9 @@ metadata:
     app.kubernetes.io/component: web
 spec:
   parentRefs:
-    - name: {{ .Values.gatewayApi.parentRef.name }}
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: {{ .Values.gatewayApi.parentRef.name }}
       namespace: {{ .Values.gatewayApi.parentRef.namespace }}
       sectionName: {{ .Values.gatewayApi.parentRef.sectionName | quote }}
   hostnames:
