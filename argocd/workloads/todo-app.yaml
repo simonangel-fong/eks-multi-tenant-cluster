@@ -33,6 +33,11 @@ spec:
       kind: HTTPRoute
       jsonPointers:
         - /spec/rules
+        - /spec/parentRefs
+    - group: ""
+      kind: Service
+      jsonPointers:
+        - /spec/selector
   syncPolicy:
     managedNamespaceMetadata:
       labels:
