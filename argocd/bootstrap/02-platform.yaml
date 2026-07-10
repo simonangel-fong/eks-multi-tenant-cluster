@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: 10-platform
+  name: 02-platform
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-50"
@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/simonangel-fong/project-eks-argocd
     targetRevision: master
-    path: argocd/03-capabilities
+    path: argocd/platform-capabilities
     directory:
       recurse: false
   destination:
