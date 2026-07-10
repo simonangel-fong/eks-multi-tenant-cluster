@@ -21,10 +21,25 @@ spec:
       values: |
         installCRDs: true
         replicaCount: 1
+        tolerations:
+          - key: workload-class
+            operator: Equal
+            value: platform
+            effect: NoSchedule
         webhook:
           replicaCount: 1
+          tolerations:
+            - key: workload-class
+              operator: Equal
+              value: platform
+              effect: NoSchedule
         certController:
           replicaCount: 1
+          tolerations:
+            - key: workload-class
+              operator: Equal
+              value: platform
+              effect: NoSchedule
   destination:
     server: https://kubernetes.default.svc
     namespace: external-secrets

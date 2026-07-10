@@ -27,12 +27,32 @@ spec:
               memory: 256Mi
             limits:
               memory: 512Mi
+          tolerations:
+            - key: workload-class
+              operator: Equal
+              value: platform
+              effect: NoSchedule
         backgroundController:
           replicas: 1
+          tolerations:
+            - key: workload-class
+              operator: Equal
+              value: platform
+              effect: NoSchedule
         reportsController:
           replicas: 1
+          tolerations:
+            - key: workload-class
+              operator: Equal
+              value: platform
+              effect: NoSchedule
         cleanupController:
           replicas: 1
+          tolerations:
+            - key: workload-class
+              operator: Equal
+              value: platform
+              effect: NoSchedule
   destination:
     server: https://kubernetes.default.svc
     namespace: kyverno
