@@ -1,6 +1,4 @@
-# Node config for the database workload class.
-# Slightly larger root volume than general to accommodate stateful
-# workloads' scratch space and container image cache.
+# Node Class for database workload.
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
