@@ -30,6 +30,12 @@ spec:
         {{- include "todo.commonLabels" . | nindent 8 }}
         app.kubernetes.io/component: web
     spec:
+      {{- with .Values.web.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.web.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: web
           image: "{{ .Values.global.image.repository }}:{{ .Values.web.image.tag }}"

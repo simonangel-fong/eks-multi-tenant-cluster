@@ -17,6 +17,13 @@ db:
   resources:
     requests: { cpu: 100m, memory: 256Mi }
     limits:   { cpu: 500m, memory: 512Mi }
+  nodeSelector:
+    workload-class: database
+  tolerations:
+    - key: workload-class
+      operator: Equal
+      value: database
+      effect: NoSchedule
 
 api:
   enabled: true
@@ -27,6 +34,11 @@ api:
   resources:
     requests: { cpu: 50m,  memory: 128Mi }
     limits:   { cpu: 300m, memory: 256Mi }
+  nodeSelector:
+    workload-class: general
+  pdb:
+    enabled: true
+    minAvailable: 1
   canary:
     steps:
       - setWeight: 20
@@ -47,6 +59,11 @@ web:
   resources:
     requests: { cpu: 50m,  memory: 64Mi }
     limits:   { cpu: 200m, memory: 128Mi }
+  nodeSelector:
+    workload-class: general
+  pdb:
+    enabled: true
+    minAvailable: 1
   canary:
     steps:
       - setWeight: 20
