@@ -73,9 +73,12 @@ web:
       - pause: { duration: 60s }
       - setWeight: 100
 
-istio:
+gatewayApi:
   enabled: true
-  gateway: todo-gateway
+  parentRef:
+    name: istio-ingress
+    namespace: istio-ingress
+    sectionName: https
 
 analysis:
   prometheus:

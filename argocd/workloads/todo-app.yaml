@@ -29,10 +29,10 @@ spec:
       kind: Rollout
       jsonPointers:
         - /spec/replicas
-    - group: networking.istio.io
-      kind: VirtualService
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
       jsonPointers:
-        - /spec/http
+        - /spec/rules
   syncPolicy:
     managedNamespaceMetadata:
       labels:

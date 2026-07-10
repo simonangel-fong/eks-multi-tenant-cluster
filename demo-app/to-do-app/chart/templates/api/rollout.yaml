@@ -13,11 +13,11 @@ spec:
       canaryService: todo-api-canary
       stableService: todo-api
       trafficRouting:
-        istio:
-          virtualService:
-            name: todo-api
-            routes:
-              - primary
+        plugins:
+          argoproj-labs/gatewayAPI:
+            httpRoute:
+              name: todo-api
+              namespace: {{ .Release.Namespace }}
       steps:
         {{- toYaml .Values.api.canary.steps | nindent 8 }}
   selector:
