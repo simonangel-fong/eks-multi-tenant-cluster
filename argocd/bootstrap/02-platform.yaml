@@ -14,7 +14,8 @@ spec:
     targetRevision: master
     path: argocd/platform-capabilities
     directory:
-      recurse: false
+      recurse: true
+      include: '*/*.yaml'
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
