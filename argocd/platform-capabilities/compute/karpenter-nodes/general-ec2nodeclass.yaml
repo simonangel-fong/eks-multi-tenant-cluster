@@ -21,3 +21,4 @@ spec:
   tags:
     karpenter.sh/discovery: multi-tenant-eks-dev
     workload-class: general
+    Name: multi-tenant-eks-dev-general

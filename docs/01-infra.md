@@ -45,15 +45,7 @@ traffic: `api-gateway (HTTP API) → vpc link → private ALB → EKS (Gateway A
 
 ```
 infra/
-│  ├─ 01-variables.tf
-│  ├─ 02-locals.tf
-│  ├─ 03-providers.tf      # tf + provider version pins live here
-│  ├─ 04-outputs.tf
-│  ├─ 10-vpc.tf        # foundation: network
-│  ├─ 11-eks.tf        # cluster: control plane + node group + add-ons
-│  ├─ 12-eks-argocd.tf        # argocd
-│  ├─ 13-eks-eso.tf
-│  ├─ 1-eks-eso.tf
+
 ```
 
 ---

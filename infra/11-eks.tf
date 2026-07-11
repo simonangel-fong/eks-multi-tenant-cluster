@@ -7,25 +7,35 @@ module "eks" {
   cluster_version = local.eks_version
   subnet_ids      = module.vpc.private_subnet_ids
 
+  # sg: karpenter
   node_security_group_tags = {
     "karpenter.sh/discovery" = local.common_name
   }
 
-  node_labels = {
-    role                      = "bootstrap"
-    "workload-class"          = "platform"
-    "karpenter.sh/controller" = "true"
-  }
 
+  # ####################
+  # node group
+  # ####################
   bootstrap_node_group = {
+    # node taint
     taints = {
       "workload-class" = {
         value  = "platform"
         effect = "NO_SCHEDULE"
       }
     }
+
+    # node labels
+    labels = {
+      role                      = "bootstrap"
+      "workload-class"          = "platform"
+      "karpenter.sh/controller" = "true"
+    }
   }
 
+  # ####################
+  # addons
+  # ####################
   cluster_addons = {
     coredns = {
       configuration_values = jsonencode({

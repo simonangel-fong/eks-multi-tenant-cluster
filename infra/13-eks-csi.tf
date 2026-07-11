@@ -5,7 +5,7 @@ module "ebs_csi_pod_identity" {
   source  = "terraform-aws-modules/eks-pod-identity/aws"
   version = "~> 1.0"
 
-  name                      = "${local.common_name}-csi-pod-role"
+  name                      = "${local.common_name}-csi-pod"
   attach_aws_ebs_csi_policy = true
 }
 

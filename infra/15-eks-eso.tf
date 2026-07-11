@@ -32,7 +32,7 @@ resource "aws_iam_role" "eso" {
 }
 
 resource "aws_iam_role_policy" "eso" {
-  name   = "secretsmanager-read"
+  name   = "${local.common_name}-secretsmanager-read"
   role   = aws_iam_role.eso.id
   policy = data.aws_iam_policy_document.eso_read.json
 }

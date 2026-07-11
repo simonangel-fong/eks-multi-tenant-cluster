@@ -16,14 +16,8 @@
 
 ```
 argocd/
-├─ root.yaml       # app-of-apps entry point → renders bootstrap/
-├─ bootstrap/      # three child app-of-apps that render projects/, platform/, workloads/
-├─ projects/       # AppProject CRs (guardrails: allowed repos, namespaces, resources per team)
-├─ platform/       # cluster addons owned by the platform team (ESO, Karpenter, ALBC, Istio, etc.)
-└─ workloads/      # user-facing apps owned by dev teams (voting-app, future apps)
-```
 
-- ordering: `argocd.argoproj.io/sync-wave` annotations (lower waves sync first). Filenames do not carry ordering.
+```
 
 ---
 
@@ -53,8 +47,21 @@ argocd app list
 
 ## Bootstrap
 
-- One-time setup for a fresh cluster. 
-- Applying `root.yaml` triggers the app-of-apps chain: `root` → `bootstrap/` → `projects/` + `platform/` + `workloads/`. 
+- update
+
+- karpenter:
+  - karpenter.yaml:
+    - clusterName: <karpenter_cluster_name>
+    - interruptionQueue: <karpenter_queue_name>
+  - EC2NodeClass:
+    - role: <karpenter_node_iam_role_name>
+
+- ALBC
+  - clusterName: <karpenter_cluster_name>
+  - vpcId: <vpc_id>
+
+- One-time setup for a fresh cluster.
+- Applying `root.yaml` triggers the app-of-apps chain: `root` → `bootstrap/` → `projects/` + `platform/` + `workloads/`.
   - From that point on, Argo self-manages via git.
 
 ```sh
@@ -144,5 +151,5 @@ kubectl -n argocd logs -l app.kubernetes.io/name=argocd-repo-server --tail=200 -
 ## Argo Rollouts
 
 ```sh
-kubectl -n argo-rollouts get svc 
+kubectl -n argo-rollouts get svc
 ```
