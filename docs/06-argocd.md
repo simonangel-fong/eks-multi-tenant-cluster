@@ -8,6 +8,7 @@
   - [Bootstrap](#bootstrap)
   - [Onboarding a New Application](#onboarding-a-new-application)
   - [Debug](#debug)
+  - [Argo Rollouts](#argo-rollouts)
 
 ---
 
@@ -136,4 +137,12 @@ argocd app delete <name> --cascade=false
 # --- controller logs ---
 kubectl -n argocd logs -l app.kubernetes.io/name=argocd-application-controller --tail=200 -f
 kubectl -n argocd logs -l app.kubernetes.io/name=argocd-repo-server --tail=200 -f
+```
+
+---
+
+## Argo Rollouts
+
+```sh
+kubectl -n argo-rollouts get svc 
 ```
