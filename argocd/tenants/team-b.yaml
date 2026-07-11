@@ -10,6 +10,9 @@ kind: Application
 metadata:
   name: team-b
   namespace: argocd
+  labels:
+    scope: tenant
+    team: team-b
   finalizers:
     - argocd.argoproj.io/resources-finalizer
 spec:

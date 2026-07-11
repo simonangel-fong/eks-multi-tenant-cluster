@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: 02-platform
   namespace: argocd
+  labels:
+    scope: platform
+    capability: bootstrap
   annotations:
     argocd.argoproj.io/sync-wave: "-50"
   finalizers:

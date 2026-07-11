@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   labels:
     scope: platform
-    capability: compute
+    capability: bootstrap
   finalizers:
     - argocd.argoproj.io/resources-finalizer
 spec:
