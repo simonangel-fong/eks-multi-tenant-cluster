@@ -59,6 +59,10 @@ argocd app list
 - ALBC
   - clusterName: <karpenter_cluster_name>
   - vpcId: <vpc_id>
+- Gateway:
+  - aws-load-balancer-name: <karpenter_cluster_name>
+
+---
 
 - One-time setup for a fresh cluster.
 - Applying `root.yaml` triggers the app-of-apps chain: `root` → `bootstrap/` → `projects/` + `platform/` + `workloads/`.
