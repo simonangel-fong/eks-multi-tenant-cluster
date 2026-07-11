@@ -180,5 +180,6 @@ The tenant then owns everything inside that namespace: pods, services, PVCs, `HT
 - **Namespace exclusion list is duplicated across every Kyverno policy** (9 places today). Extract to a shared ConfigMap / policy variable.
 - **Baseline `PodSecurityContext` policy.** Add Kyverno rules to require `runAsNonRoot`, `readOnlyRootFilesystem` where feasible, and `capabilities.drop: [ALL]`.
 - **Egress control.** Today NetworkPolicy handles ingress well; egress to the internet is unrestricted. Deferred; revisit when a tenant handles regulated data.
+- **Ambient + Waypoint + AuthorizationPolicy.** L7 identity-based isolation, currently deferred. Requires a Waypoint proxy per tenant namespace to solve kubelet probe interception, plus `AuthorizationPolicy` templated into the onboarding contract. Revisit when cross-tenant service calls or wire-encryption compliance enter scope.
 
 ---

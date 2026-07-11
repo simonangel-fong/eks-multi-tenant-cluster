@@ -4,10 +4,29 @@ metadata:
   name: team-a
   labels:
     team: team-a
-    # Ambient mTLS disabled — kubelet probes fail against enrolled pods because
-    # ztunnel expects mTLS. Re-enable with a Waypoint proxy or port-level
-    # exclusion once AuthorizationPolicy is in scope.
-    # istio.io/dataplane-mode: ambient
+    # Ambient mesh enrollment. Combined with the Waypoint below, kubelet
+    # probes traverse ztunnel → Waypoint → pod (plain HTTP), which fixes
+    # the probe timeouts we hit without a Waypoint.
+    istio.io/dataplane-mode: ambient
+    # Attach every workload in this namespace to the Waypoint proxy.
+    istio.io/use-waypoint: waypoint
+---
+# Waypoint proxy — Envoy Deployment materialized by istio.io/mesh-controller.
+# `waypoint-for: all` handles both service and workload traffic; the latter
+# is what makes kubelet probes work under ambient.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: waypoint
+  namespace: team-a
+  labels:
+    istio.io/waypoint-for: all
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+    - name: mesh
+      port: 15008
+      protocol: HBONE
 ---
 # Default-deny — every pod-to-pod path is blocked until an allow rule opens it.
 apiVersion: networking.k8s.io/v1
