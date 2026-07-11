@@ -20,9 +20,9 @@ spec:
       releaseName: aws-load-balancer-controller
       values: |
         clusterName: multi-tenant-eks-dev
-        region: vpc-09828470329db3b27
+        region: ca-central-1
         vpcId: 
-          vpc-1234
+          vpc-09828470329db3b27
         serviceAccount:
           create: true
           name: aws-load-balancer-controller
