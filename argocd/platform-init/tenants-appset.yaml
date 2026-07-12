@@ -33,7 +33,7 @@ spec:
         helm:
           releaseName: "tenant-{{ .name }}"
           valuesObject:
-            name: "{{ .name }}"
+            name: "tenant-{{ .name }}"
             sourceRepo: "{{ .sourceRepo }}"
             manifestPath: "{{ .manifestPath }}"
       destination:
