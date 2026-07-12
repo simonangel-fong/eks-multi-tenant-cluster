@@ -23,7 +23,7 @@ spec:
         scope: tenant
         team: "{{ .name }}"
     spec:
-      project: default
+      project: tenants
       sources:
         - repoURL: https://github.com/simonangel-fong/eks-multi-tenant-cluster
           targetRevision: master
