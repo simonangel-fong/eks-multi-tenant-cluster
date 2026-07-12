@@ -121,7 +121,7 @@ kubectl -n argocd patch app/<name> --type merge \
 kubectl -n argocd delete app <name>
 
 # remove all
-kubectl delete applications.argoproj.io --all -n argocd --cascade=orphan
+kubectl delete applications.argoproj.io --all -n argocd --cascade
 kubectl get application -n argocd -o name | xargs -I {} kubectl patch {} -n argocd --type merge -p '{"metadata":{"finalizers":null}}'
 
 # bulk: clear finalizers + delete all apps

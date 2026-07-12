@@ -7,7 +7,7 @@ metadata:
     scope: platform
     capability: bootstrap
   annotations:
-    argocd.argoproj.io/sync-wave: "-50"
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - argocd.argoproj.io/resources-finalizer
 spec:
