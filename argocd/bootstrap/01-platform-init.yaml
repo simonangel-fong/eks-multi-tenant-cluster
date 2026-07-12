@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: 01-init
+  name: 01-platform-init
   namespace: argocd
   labels:
     scope: platform
@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://github.com/simonangel-fong/eks-multi-tenant-cluster
     targetRevision: master
-    path: argocd/init
+    path: argocd/platform-init
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
