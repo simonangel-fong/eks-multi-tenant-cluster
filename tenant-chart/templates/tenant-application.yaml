@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ .Values.name }}
+  name: tenant-{{ .Values.name }}-app
   namespace: argocd
   labels:
     scope: tenant

@@ -15,7 +15,7 @@ spec:
           - path: tenants/*.json
   template:
     metadata:
-      name: "tenant-{{ .name }}"
+      name: "tenant-{{ .name }}-init"
       namespace: argocd
       annotations:
         argocd.argoproj.io/sync-wave: "100"
@@ -31,7 +31,7 @@ spec:
         targetRevision: master
         path: tenant-chart
         helm:
-          releaseName: "tenant-{{ .name }}"
+          releaseName: "tenant-{{ .name }}-init"
           valuesObject:
             name: "{{ .name }}"
             sourceRepo: "{{ .sourceRepo }}"
