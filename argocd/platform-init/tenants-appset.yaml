@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tenants
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: https://github.com/simonangel-fong/eks-multi-tenant-cluster
+        revision: master
+        files:
+          - path: tenant/tenants.json
+  template:
+    metadata:
+      name: "tenant-{{ .name }}"
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "100"
+      labels:
+        scope: tenant
+        team: "{{ .name }}"
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/simonangel-fong/eks-multi-tenant-cluster
+        targetRevision: master
+        path: tenant/charts/tenant-blueprint
+        helm:
+          releaseName: "tenant-{{ .name }}"
+          valuesObject:
+            name: "{{ .name }}"
+            sourceRepo: "{{ .sourceRepo }}"
+            manifestPath: "{{ .manifestPath }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=false

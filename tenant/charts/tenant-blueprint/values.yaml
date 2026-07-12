@@ -1,5 +1,21 @@
-tenantName: "default-tenant"
-tier: "small"
-resources:
-  cpu: "1"
-  memory: "2Gi"
+# Per-tenant values. The ApplicationSet overrides `name`, `sourceRepo`, `manifestPath`
+# from tenants.json. Everything below is a default that individual tenants can
+# override later once the schema is refined.
+
+name: default-tenant
+sourceRepo: ""
+manifestPath: ""
+targetRevision: master
+
+quota:
+  requestsCpu: "4"
+  requestsMemory: "8Gi"
+  limitsCpu: "8"
+  limitsMemory: "16Gi"
+  persistentVolumeClaims: "10"
+
+limitRange:
+  defaultRequestCpu: "100m"
+  defaultRequestMemory: "128Mi"
+  defaultLimitCpu: "500m"
+  defaultLimitMemory: "512Mi"

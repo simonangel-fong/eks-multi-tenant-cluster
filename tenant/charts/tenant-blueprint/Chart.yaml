@@ -1,0 +1,6 @@
+apiVersion: v2
+name: tenant-blueprint
+description: Onboarding blueprint for a multi-tenant EKS tenant (namespace guardrails, AppProject, Application).
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

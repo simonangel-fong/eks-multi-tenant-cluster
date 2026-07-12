@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.tenantName }}
+  name: {{ .Values.name }}
   labels:
-    tenant: {{ .Values.tenantName }}
-    tier: {{ .Values.tier }}
+    team: {{ .Values.name }}
+    istio.io/dataplane-mode: ambient

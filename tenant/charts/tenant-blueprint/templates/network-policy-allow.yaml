@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-platform-ingress-and-dns
+  namespace: {{ .Values.name }}
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-ingress
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-system
+        # Ambient SNATs kubelet probes to this link-local address.
+        # Removing this rule causes every probe to time out.
+        - ipBlock:
+            cidr: 169.254.7.127/32
+        - ipBlock:
+            cidr: 10.0.0.0/16
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 15008
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-system
+    - to:
+        - podSelector: {}
