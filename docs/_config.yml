@@ -1,0 +1,18 @@
+title: Multi-tenant Cluster with EKS
+description: A multi-tenant EKS platform that runs many teams on shared infrastructure, provisioned by Terraform and delivered by ArgoCD.
+theme: jekyll-theme-cayman
+show_downloads: false
+
+# Pretty URLs (docs/tenant/compute.md → /tenant/compute/)
+permalink: pretty
+
+# Repo metadata for the theme header/footer
+github:
+  repository_url: https://github.com/simonangel-fong/eks-multi-tenant-cluster
+  repository_name: eks-multi-tenant-cluster
+  owner_name: simonangel-fong
+
+# Skip files that shouldn't be published
+exclude:
+  - README.md
+  - "*.tmp"
