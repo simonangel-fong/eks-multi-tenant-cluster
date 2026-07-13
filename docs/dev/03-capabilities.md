@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - Capabilities
 
-[Back](../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - Capabilities](#multi-tenant-platform-runbook---capabilities)
   - [Compute](#compute)

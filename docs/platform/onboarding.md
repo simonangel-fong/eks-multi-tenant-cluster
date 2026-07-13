@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - Tenant Onboarding
 
-[Back](../../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - Tenant Onboarding](#multi-tenant-platform-runbook---tenant-onboarding)
   - [Overview](#overview)

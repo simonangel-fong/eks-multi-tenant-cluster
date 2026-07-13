@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - Security Capability
 
-[Back](../../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - Security Capability](#multi-tenant-platform-runbook---security-capability)
   - [Overview](#overview)

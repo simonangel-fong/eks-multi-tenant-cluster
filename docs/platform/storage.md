@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - Storage Capability
 
-[Back](../../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - Storage Capability](#multi-tenant-platform-runbook---storage-capability)
   - [Overview](#overview)

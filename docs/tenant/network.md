@@ -1,6 +1,6 @@
 # Multi-tenant Platform Guide - Network
 
-[Back](../../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Guide - Network](#multi-tenant-platform-guide---network)
   - [Overview](#overview)

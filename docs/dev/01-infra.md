@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - Infrastructure
 
-[Back](../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - Infrastructure](#multi-tenant-platform-runbook---infrastructure)
   - [AWS Design](#aws-design)

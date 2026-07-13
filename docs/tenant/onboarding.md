@@ -1,6 +1,6 @@
 # Multi-tenant Platform Guide - Onboarding
 
-[Back](../../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Guide - Onboarding](#multi-tenant-platform-guide---onboarding)
   - [Overview](#overview)

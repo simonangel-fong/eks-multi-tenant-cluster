@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - Networking Capability
 
-[Back](../../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - Networking Capability](#multi-tenant-platform-runbook---networking-capability)
   - [Overview](#overview)

@@ -1,6 +1,6 @@
 # Multi-tenant Platform Runbook - ArgoCD
 
-[Back](../README.md)
+[Back to docs home](../)
 
 - [Multi-tenant Platform Runbook - ArgoCD](#multi-tenant-platform-runbook---argocd)
   - [Repo Layout](#repo-layout)
