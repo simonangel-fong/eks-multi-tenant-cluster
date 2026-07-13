@@ -19,8 +19,7 @@ layout: none
     <div class="container">
       <a class="brand" href="#top">EKS Multi-tenant</a>
       <nav>
-        <a href="#challenge">Challenge</a>
-        <a href="#solution">Solution</a>
+        <a href="#challenge">Challenge &amp; Solution</a>
         <a href="#architecture">Architecture</a>
         <a href="#demo">Demo</a>
         <a href="#summary">Summary</a>
@@ -67,19 +66,60 @@ layout: none
       </div>
     </section>
 
-    <!-- ================ CHALLENGE ================ -->
-    <section id="challenge">
+    <!-- ============ CHALLENGE & SOLUTION ============ -->
+    <section id="challenge" class="cs">
       <div class="container">
-        <h2>Business Challenge</h2>
-        <p class="muted">Placeholder &mdash; filled in next phase.</p>
-      </div>
-    </section>
+        <header class="section-head">
+          <h2>Business Challenge &amp; Solution</h2>
+          <p class="section-lead">
+            Per-team clusters multiply cost and complexity. One shared cluster &mdash; with strong guardrails &mdash; solves it.
+          </p>
+        </header>
 
-    <!-- ================ SOLUTION ================ -->
-    <section id="solution">
-      <div class="container">
-        <h2>Solution &amp; Benefits</h2>
-        <p class="muted">Placeholder &mdash; filled in next phase.</p>
+        <div class="cs-grid">
+          <!-- Challenge -->
+          <article class="cs-card cs-problem">
+            <span class="cs-tag">The Challenge</span>
+            <h3>One cluster per team doesn&rsquo;t scale.</h3>
+            <p>
+              For a small or mid-size enterprise, giving every product team its own Kubernetes cluster
+              drives up cost, slows onboarding, and leaves governance inconsistent.
+            </p>
+            <ul class="cs-list">
+              <li><b>Cost multiplies</b> &mdash; one control plane per team.</li>
+              <li><b>Upgrades are painful</b> &mdash; N clusters, N times the work.</li>
+              <li><b>Governance drifts</b> &mdash; different teams, different rules.</li>
+            </ul>
+          </article>
+
+          <!-- Solution -->
+          <article class="cs-card cs-solution">
+            <span class="cs-tag cs-tag-accent">The Solution</span>
+            <h3>One shared EKS cluster. Strong walls between teams.</h3>
+            <p>
+              Platform owns the guardrails (compute, network, security); tenants own their workloads.
+              A new team goes live with one platform PR and one tenant PR.
+            </p>
+            <ul class="cs-benefits">
+              <li>
+                <b>Lower cost</b>
+                <span>Pooled capacity replaces per-team over-provisioning.</span>
+              </li>
+              <li>
+                <b>One platform to run</b>
+                <span>One control plane, one upgrade path, one security baseline.</span>
+              </li>
+              <li>
+                <b>Consistent governance</b>
+                <span>The same guardrails apply to every tenant.</span>
+              </li>
+              <li>
+                <b>Fast onboarding</b>
+                <span>A new team ships in two small PRs.</span>
+              </li>
+            </ul>
+          </article>
+        </div>
       </div>
     </section>
 
